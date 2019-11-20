@@ -1,0 +1,120 @@
+#include <stdio.h>
+#include <string.h>
+int BF(char S[],char T[],int match[])
+{
+    int index=0;	//重新匹配位置
+	int count=0;    //匹配成功次数
+    int i=0;
+    int j=0;
+	//char match[100];   //匹配成功位置数组
+    while(S[i]!='\0')
+    {
+    	//printf("BF %d",i);
+        if(S[i]==T[j])
+        {
+//如果匹配成功，则继续比较下一对字符
+            i++;   //匹配成功，主串也会后移一位
+            j++;
+        }
+        else
+        {
+ //如果匹配不成功，主串和子串回溯坐标。index记录的是每次匹配时的开始位置
+			index++;
+            i=index;    //主串从上次记录位置开始重新匹配
+            j=0;
+        }
+		//子串已经匹配到末尾
+		if(T[j]=='\0'){
+			match[count]=index;   //!!!!!!!!!!!!!!!!!!!!!!!!!数组初始都是0，如果第一位就匹配成功，则0为不会输出
+			index=i;    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!将下次重新开始位置赋值为新的主串开始位置
+			count++;
+			j=0;
+		}
+    }
+//	if(strlen(match)!=0)
+	//	return 1;
+    //else 
+		return 0;
+}
+//判断该位置是否是匹配开始位置 
+int indexofMatch(int i,int match[]){
+//	printf("index \n");
+	for(int j=0;match[j]!=-1;j++){
+		if(i==match[j])
+			return 1;
+	}
+	return -1;
+} 
+
+int BF_replace(char S[],char T[],char c[],char d[],int match[])
+{
+	printf("BF_replace \n");
+	int i=0;
+	int j=0;    //j为主串遍历下标，i为替换后的字符串下标 
+   // if(indexofMatch(j)!=1)  //该位置不是子串匹配开始位置 ,赋值为主串 
+   while(S[j]!='\0'){
+		for(;indexofMatch(j,match)!=1;j++){   //主串S的下标j不是子串匹配开始位置时 
+			d[i]=S[j]; 
+			i++; 
+		}
+		if(indexofMatch(j,match)==1){
+			//主串S的下标是子串匹配开始位置时 ,替换 
+			for(int k=0;c[k]!='\0';k++){
+				d[i]=c[k];
+				i++; 
+			}
+ 			j=j+strlen(T);   //替换后，从主串S的非匹配位置开始再找,跳过子串b 
+		}
+	}
+	return 0;
+}
+
+int main()
+{	
+	int match[100];     			//用来存放开始位置下角标 
+	for(int m=0;m<100;m++)			//初始化找到的字符串为0
+    	match[m]=-1; 
+    char a[100];
+	char b[100];
+	char c[100];
+	char d[100];
+	printf("请输入一行原串S：");          //输入字符串后会自动在末尾添加结束符\0 
+    gets(a);
+	printf("原串的长度是：%d,内容是：%s\n",strlen(a),a);
+	
+	printf("请输入一行子串T：");
+    gets(b);
+	printf("子串的长度是：%d,内容是：%s\n",strlen(b),b);
+
+	BF(a,b,match);   //找到匹配的所有位置     这里是数组下标 
+//	for(int i=0;match[i]!=-1;i++){
+//		printf("开始位置%d\n",match[i]);
+//	} 
+	//printf("%d",indexofMatch(0,match));
+
+	printf("请输入一行替换串c:");
+	gets(c);
+	printf("替换串的长度是：%d,内容是：%s\n",strlen(c),c);
+	
+	//printf("index值%d",indexofMatch(8,match)); 
+//	for(int i=0;match[i]!=-1;i++){
+//		printf("在原串的%d,位置找到子串\n",match[i]+1);
+//		//printf("%d,",match);
+//	
+//	} 
+	BF_replace(a,b,c,d,match);
+	printf("替换后的串d的长度是：%d,内容是：%s\n",strlen(d),d);
+
+/*   // char match[100]=BF(a,b);
+
+	printf("替换后的字符串的长度是：%d,内容是：%s\n");
+	for(int n=0;d[n]!='\0';n++){
+		printf("%c",d[n]);
+	}
+	*/	
+	
+    return 0;
+}
+
+
+//hello,abc,hello,abc,hello,aabbcc,hello,abcabc    hi,jack,hi,pete
