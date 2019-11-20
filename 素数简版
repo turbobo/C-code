@@ -1,0 +1,30 @@
+#include <stdio.h>
+int main()
+{
+  int num;
+  printf("请输入一个大于1的自然数：");
+  scanf("%d",&num); 
+  int count=0; 
+	int i; 
+	for(i=1;i<=num;i++)
+	{
+		if(num%i==0)
+		{
+			count++;
+			//printf("%d不是素数",num);
+			//break;
+		}
+//		else
+//		{
+//			printf("%d是素数",num);
+//			break;
+//		}
+	}
+	 
+	if(count==2)    //0和1不是素数 
+		printf("%d是素数",num);
+	else
+		printf("%d不是素数",num);
+	
+	return 0;
+}
