@@ -1,0 +1,32 @@
+package homework;
+
+import java.math.BigInteger;
+
+/**
+  *   超大数幂运算
+ * @author 73556
+ *
+ */
+public class BigIntCal {
+    public static void main(String[] args) {
+         
+        String str = "8.804113466E2177";
+//        String str ="8.804113466E2177";
+        
+        /*通过split方法把该数分成两个数，
+         * 即6.22848和18然后依次放入字符串组中。*/
+        String[] s=str.split("E+");
+         
+        /*并且通过Double类的parseDouble方法解析成double型*/
+        double num1 = Double.parseDouble(s[0]);
+        double num2 = Double.parseDouble(s[1]);
+         
+        /*最后打印出来，因为double类型的数取值范围不够，所以改为long类型的值*/
+        long num=(long) (num1*Math.pow(10, num2));
+//        BigInteger bignum=new BigInteger());
+        System.out.println(num1);
+        System.out.println(num2);
+        System.out.println(num);
+    }
+ 
+}
