@@ -1,0 +1,48 @@
+#include <conio.h>
+#include <stdio.h>
+int ExtEnclid(int d,int f)
+{
+	int x1,x2,x3,y1,y2,y3,t1,t2,t3,k;
+	if(d>f) d=d+f-(d=f); //交换d和f使得d<f
+	x1=1,x2=0,x3=f;
+	y1=0,y2=1,y3=d;
+	while(1)
+	{
+		if(y3==0)
+		{ 
+			return 0; //没有逆元,gcd(d,f)=x3
+		}
+		if(y3==1)
+		{
+		return y2; //逆元为y2,gcd(d,f)=1
+		}
+		k=x3/y3;
+		t1=x1-k*y1, t2=x2-k*y2, t3=x3-k*y3;
+		x1=y1,x2=y2,x3=y3;
+		y1=t1,y2=t2,y3=t3;
+	}
+}
+	
+int main()
+{
+	int a, n, res;
+	printf("求 a^(-1) mod n 的值：\n");
+	printf("a = ");
+	scanf("%d", &a);
+	printf("n = ");
+	scanf("%d", &n);
+	res = ExtEnclid(a,n);
+	if (res == 0)
+	{
+		printf("Not Exist!\n");
+		getch();
+		return (0);
+	}	
+	else if(res<0)
+	{
+		res = res + n;
+	}
+		printf("a^(-1) mod n = %d\n", res);
+	getch();
+	return (0);
+}
